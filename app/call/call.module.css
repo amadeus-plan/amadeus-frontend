@@ -1,0 +1,167 @@
+.call-page {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+}
+
+/* Camera preview area */
+.camera-preview {
+    position: absolute;
+    top: 50px;
+    right: 20px;
+    width: 120px;
+    height: 160px;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+.camera-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #333 0%, #555 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    border: 2px solid #666;
+    box-sizing: border-box;
+}
+
+.camera-placeholder video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 13px;
+    /* Slightly smaller than container border-radius to avoid overflow */
+}
+
+/* Bottom control area */
+.controls-container {
+    width: 100%;
+    padding: 30px 20px;
+}
+
+.control-buttons {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.control-button {
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 1;
+    background: rgba(112, 112, 112, 0.8);
+}
+
+.control-button:active {
+    transform: translateY(0) scale(0.95);
+}
+
+.control-button img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+.end-call {
+    background: rgba(255, 0, 0, 0.8)
+}
+
+
+.fullscreen-button {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+}
+
+.fullscreen-button img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+.fullscreen-button:active {
+    transform: scale(0.96);
+}
+
+/* Mobile optimization */
+@media (max-width: 480px) {
+    .camera-preview {
+        top: 30px;
+        right: 15px;
+        width: 100px;
+        height: 130px;
+    }
+
+    .camera-placeholder {
+        font-size: 10px;
+    }
+
+    .controls-container {
+        padding: 25px 15px;
+    }
+
+    .control-button {
+        width: 55px;
+        height: 55px;
+    }
+
+    .control-button img {
+        width: 28px;
+        height: 28px;
+    }
+
+    .fullscreen-button {
+        top: 12px;
+        left: 12px;
+    }
+
+    .fullscreen-button img {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+@media (max-width: 360px) {
+    .camera-preview {
+        width: 90px;
+        height: 120px;
+    }
+
+    .control-button {
+        width: 50px;
+        height: 50px;
+    }
+
+    .control-button img {
+        width: 24px;
+        height: 24px;
+    }
+}

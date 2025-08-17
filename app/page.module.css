@@ -1,0 +1,151 @@
+.login-page {
+    width: 100vw;
+    height: 100vh;
+    background-image: url('/home.png');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+}
+
+.logo-container {
+    text-align: center;
+}
+
+.logo {
+    max-width: 280;
+    height: auto;
+}
+
+.login-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.input-group {
+    width: 100%;
+}
+
+.input-label {
+    display: block;
+    color: #FFD700;
+    /* Bright gold */
+    font-size: 14px;
+    margin-bottom: 8px;
+    text-align: left;
+    font-family: "Times New Roman", Times, serif;
+}
+
+.login-input {
+    width: 100%;
+    height: 50px;
+    background-color: #000000;
+    /* Black background */
+    border: 2px solid #FFFFFF;
+    /* White border */
+    border-radius: 0;
+    /* Rectangular box */
+    color: #FFFF00;
+    /* Yellow text */
+    font-size: 16px;
+    padding: 0 15px;
+    box-sizing: border-box;
+    outline: none;
+    font-family: "Times New Roman", Times, serif;
+}
+
+.login-input::placeholder {
+    color: #FFFF00;
+    opacity: 0.7;
+}
+
+.password-group {
+    position: relative;
+}
+
+.password-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input {
+    padding-right: 60px;
+    /* Leave space for button */
+}
+
+.enter-button {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.enter-button img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+}
+
+.enter-button:hover {
+    opacity: 0.8;
+}
+
+.enter-button:active {
+    transform: scale(0.95);
+}
+
+/* Mobile optimization */
+@media (max-width: 480px) {
+    .login-page {
+        padding: 15px;
+    }
+
+    .logo {
+        max-width: 150px;
+    }
+
+    .login-input {
+        height: 45px;
+        font-size: 25px;
+    }
+
+    .input-label {
+        font-size: 20px;
+    }
+
+    .enter-button img {
+        width: 25px;
+        height: 25px;
+    }
+
+    .fullscreen-button {
+        top: 12px;
+        left: 12px;
+    }
+
+    .fullscreen-button img {
+        width: 24px;
+        height: 24px;
+    }
+}
