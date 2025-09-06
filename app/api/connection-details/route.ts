@@ -1,10 +1,12 @@
 import { NextResponse } from 'next/server';
-import { AccessToken, type AccessTokenOptions, type VideoGrant } from 'livekit-server-sdk';
+import { AccessToken, AgentDispatchClient, type AccessTokenOptions, type VideoGrant } from 'livekit-server-sdk';
+import axios from 'axios';  // 用于调用 LiveKit API
 
 // NOTE: you are expected to define the following environment variables in `.env.local`:
 const API_KEY = process.env.LIVEKIT_API_KEY;
 const API_SECRET = process.env.LIVEKIT_API_SECRET;
-const LIVEKIT_URL = process.env.LIVEKIT_URL;
+const LIVEKIT_ADDR = process.env.LIVEKIT_ADDR;
+const AGENT_NAME = process.env.AGENT_NAME;
 
 export type ConnectionDetails = {
   serverUrl: string;
@@ -15,14 +17,17 @@ export type ConnectionDetails = {
 
 export async function GET() {
   try {
-    if (LIVEKIT_URL === undefined) {
-      throw new Error('LIVEKIT_URL is not defined');
+    if (LIVEKIT_ADDR === undefined) {
+      throw new Error('LIVEKIT_ADDR is not defined');
     }
     if (API_KEY === undefined) {
       throw new Error('LIVEKIT_API_KEY is not defined');
     }
     if (API_SECRET === undefined) {
       throw new Error('LIVEKIT_API_SECRET is not defined');
+    }
+    if (AGENT_NAME === undefined) {
+      throw new Error('AGENT_NAME is not defined');
     }
 
     // Generate participant token
@@ -34,9 +39,12 @@ export async function GET() {
       roomName
     );
 
+    // Dispatch the agent to the room
+    await createExplicitDispatch(roomName);
+
     // Return connection details
     const data: ConnectionDetails = {
-      serverUrl: LIVEKIT_URL,
+      serverUrl: "wss://" + LIVEKIT_ADDR,
       roomName,
       participantToken: participantToken,
       participantName,
@@ -52,7 +60,15 @@ export async function GET() {
     }
   }
 }
+async function createExplicitDispatch(roomName: string) {
+  const agentDispatchClient = new AgentDispatchClient(`https://${LIVEKIT_ADDR}`, API_KEY, API_SECRET);
 
+  const dispatch = await agentDispatchClient.createDispatch(roomName, AGENT_NAME as string);
+  console.log('created dispatch', dispatch);
+
+  const dispatches = await agentDispatchClient.listDispatch(roomName);
+  console.log(`there are ${dispatches.length} dispatches in ${roomName}`);
+}
 function createParticipantToken(userInfo: AccessTokenOptions, roomName: string) {
   const at = new AccessToken(API_KEY, API_SECRET, {
     ...userInfo,
