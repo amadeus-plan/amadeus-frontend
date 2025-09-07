@@ -46,6 +46,10 @@ export default function AgentClient({
     },
     publishDefaults: {
       dtx: true,
+      // Keep mic sender alive when muted to avoid renegotiation issues
+      stopMicTrackOnMute: false,
+      // Enable mic pre-connect buffer to avoid dropping initial speech on enable
+      preConnectBuffer: true,
     },
   }), []);
 
