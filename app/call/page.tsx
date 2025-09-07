@@ -17,9 +17,9 @@ const MODEL_PATH = '/kurisu/kurisu.model.json';
 
 function CallPage() {
     const [cameraEnabled, setCameraEnabled] = useState(false);
-    const [micEnabled, setMicEnabled] = useState(true); // default on
+    const [micEnabled, setMicEnabled] = useState(false); // default off
     const [modelVisible, setModelVisible] = useState(true); // default visible
-    const [speakerEnabled, setSpeakerEnabled] = useState(true); // default off
+    const [speakerEnabled, setSpeakerEnabled] = useState(false); // default off
     const [currentFacingMode, setCurrentFacingMode] = useState<'user' | 'environment'>('environment'); // 'user' = front, 'environment' = rear
     const [availableCameras, setAvailableCameras] = useState<MediaDeviceInfo[]>([]);
     const [live2dLoaded, setLive2dLoaded] = useState(false);
@@ -131,7 +131,6 @@ function CallPage() {
                     const target =
                         videoDevices.find(d => matchByKeywords(d.label || '', facingMode))
                         || videoDevices.find(d => !!(d.label || '').trim()); // Prefer devices with label
-                    // const target=videoDevices[1]
 
                     if (target && target.deviceId) {
                         // Stop previous stream and reacquire by deviceId
@@ -293,34 +292,20 @@ function CallPage() {
         try {
             const next = !micEnabled;
             if (room) {
-                try {
-                    await room.localParticipant.setMicrophoneEnabled(
-                        next,
-                        {
-                            autoGainControl: true,
-                            echoCancellation: true,
-                            noiseSuppression: true,
-                            channelCount: 1,
-                        },
-                        next
-                            ? {
-                                dtx: true,
-                                preConnectBuffer: true,
-                                stopMicTrackOnMute: false,
-                            }
-                            : {
-                                dtx: true,
-                                stopMicTrackOnMute: false,
-                            }
-                    );
-                } catch (err) {
-                    console.error('setMicrophoneEnabled error:', err);
-                    throw err;
-                }
-                if (next) {
-                    try { await room.startAudio(); } catch (e) {
-                        console.warn('room start audio failed: ', e)
+                await room.localParticipant.setMicrophoneEnabled(
+                    next,
+                    {
+                        autoGainControl: true,
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        channelCount: 1,
+                    },
+                    {
+                        dtx: true,
                     }
+                );
+                if (next) {
+                    try { await room.startAudio(); } catch {}
                 }
             }
             setMicEnabled(next);
@@ -343,7 +328,7 @@ function CallPage() {
             if (next && roomRef.current) {
                 await roomRef.current.startAudio();
             }
-        } catch { }
+        } catch {}
     };
 
     // Initialize PIXI app and Live2D model
