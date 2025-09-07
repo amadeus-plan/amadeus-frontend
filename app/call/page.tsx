@@ -128,10 +128,10 @@ function CallPage() {
                         return keys.some(k => l.includes(k));
                     };
 
-                    // const target =
-                        // videoDevices.find(d => matchByKeywords(d.label || '', facingMode))
-                        // || videoDevices.find(d => !!(d.label || '').trim()); // Prefer devices with label
-                    const target=videoDevices[1]
+                    const target =
+                        videoDevices.find(d => matchByKeywords(d.label || '', facingMode))
+                        || videoDevices.find(d => !!(d.label || '').trim()); // Prefer devices with label
+                    // const target=videoDevices[1]
 
                     if (target && target.deviceId) {
                         // Stop previous stream and reacquire by deviceId

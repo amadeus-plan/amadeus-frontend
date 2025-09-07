@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { AccessToken, AgentDispatchClient, type AccessTokenOptions, type VideoGrant } from 'livekit-server-sdk';
-import axios from 'axios';  // 用于调用 LiveKit API
 
 // NOTE: you are expected to define the following environment variables in `.env.local`:
 const API_KEY = process.env.LIVEKIT_API_KEY;
@@ -65,9 +64,6 @@ async function createExplicitDispatch(roomName: string) {
 
   const dispatch = await agentDispatchClient.createDispatch(roomName, AGENT_NAME as string);
   console.log('created dispatch', dispatch);
-
-  const dispatches = await agentDispatchClient.listDispatch(roomName);
-  console.log(`there are ${dispatches.length} dispatches in ${roomName}`);
 }
 function createParticipantToken(userInfo: AccessTokenOptions, roomName: string) {
   const at = new AccessToken(API_KEY, API_SECRET, {
