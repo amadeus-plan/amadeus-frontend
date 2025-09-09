@@ -29,7 +29,11 @@ Then edit `.env.local` and provide the required values:
 
 - `LIVEKIT_API_KEY`
 - `LIVEKIT_API_SECRET`
-- `LIVEKIT_URL`
+- `LIVEKIT_WEB_ENDPOINT` // livekit web api
+- `LIVEKIT_WS_ENDPOINT` // livekit websocket
+- `AGENT_NAME`
+
+Note that the frontend server needs to connect to livekit web api, User agent needs to connect to livekit websocket, so make sure that these two endpoints are available respectively.
 
 Optional:
 
