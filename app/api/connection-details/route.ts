@@ -4,7 +4,8 @@ import { AccessToken, AgentDispatchClient, type AccessTokenOptions, type VideoGr
 // NOTE: you are expected to define the following environment variables in `.env.local`:
 const API_KEY = process.env.LIVEKIT_API_KEY;
 const API_SECRET = process.env.LIVEKIT_API_SECRET;
-const LIVEKIT_ADDR = process.env.LIVEKIT_ADDR;
+const LIVEKIT_WEB_ENDPOINT = process.env.LIVEKIT_WEB_ENDPOINT
+const LIVEKIT_WS_ENDPOINT = process.env.LIVEKIT_WS_ENDPOINT
 const AGENT_NAME = process.env.AGENT_NAME;
 
 export type ConnectionDetails = {
@@ -16,8 +17,8 @@ export type ConnectionDetails = {
 
 export async function GET() {
   try {
-    if (LIVEKIT_ADDR === undefined) {
-      throw new Error('LIVEKIT_ADDR is not defined');
+    if (LIVEKIT_WEB_ENDPOINT === undefined || LIVEKIT_WS_ENDPOINT === undefined) {
+      throw new Error('LIVEKIT_WEB_ENDPOINT or LIVEKIT_WS_ENDPOINT is not defined');
     }
     if (API_KEY === undefined) {
       throw new Error('LIVEKIT_API_KEY is not defined');
@@ -43,7 +44,7 @@ export async function GET() {
 
     // Return connection details
     const data: ConnectionDetails = {
-      serverUrl: "wss://" + LIVEKIT_ADDR,
+      serverUrl: LIVEKIT_WS_ENDPOINT,
       roomName,
       participantToken: participantToken,
       participantName,
@@ -60,7 +61,7 @@ export async function GET() {
   }
 }
 async function createExplicitDispatch(roomName: string) {
-  const agentDispatchClient = new AgentDispatchClient(`https://${LIVEKIT_ADDR}`, API_KEY, API_SECRET);
+  const agentDispatchClient = new AgentDispatchClient(LIVEKIT_WEB_ENDPOINT as string, API_KEY, API_SECRET);
 
   const dispatch = await agentDispatchClient.createDispatch(roomName, AGENT_NAME as string);
   console.log('created dispatch', dispatch);
